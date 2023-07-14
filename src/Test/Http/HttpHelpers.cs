@@ -6,9 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
-using AspNetCore.Proxy;
 using AspNetCore.Proxy.Options;
 using System.Diagnostics.CodeAnalysis;
 
@@ -84,7 +82,7 @@ namespace AspNetCore.Proxy.Tests
         [Route("api/multipart")]
         public Task ProxyPostMultipartRequest()
         {
-            return this.HttpProxyAsync("https://httpbin.org/post");
+            return this.HttpProxyAsync("https://postman-echo.com/post");
         }
 
         [Route("api/catchall/{**rest}")]

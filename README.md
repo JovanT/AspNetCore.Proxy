@@ -27,7 +27,7 @@ dotnet test src/Test/AspNetCore.Proxy.Tests.csproj
 
 ### Compatibility
 
-.NET Standard 2.0 or .NET Core 3.0.
+.NET Standard 2.0, .NET Core 3.0, .NET Core 5.0 and .NET Core 6.0.
 
 ### Examples
 
@@ -102,6 +102,25 @@ services
         ServerCertificateCustomValidationCallback = MyValidateCertificateMethod,
         UseDefaultCredentials = true
     });
+```
+
+#### Route All Unhandled Requests
+
+You can also route all unhandled requests to another server, e.g.
+
+```csharp
+app.UseStatusCodePages(async statusCodeContext =>
+{
+    var context = statusCodeContext.HttpContext;
+    if (context.Response.StatusCode == StatusCodes.Status404NotFound)
+    {
+        var request = context.Features.Get<IHttpRequestFeature>();
+        if (request != null)
+        {
+            await context.HttpProxyAsync($"https://example.com{request.RawTarget}");
+        }
+    }
+});
 ```
 
 #### Existing Controller
